@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+    <style>
+        .error-container {
+            text-align: center;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        {% if error_code == 404 %}
+            <img src="{{ url_for('static', filename='404_error.jpeg') }}" alt="404 Error">
+            <h1>Page Not Found</h1>
+        {% elif error_code == 500 %}
+            <img src="{{ url_for('static', filename='500_error.png') }}" alt="500 Error">
+            <h1>Internal Error</h1>
+        {% else %}
+            <img src="{{ url_for('static', filename='error.png') }}" alt="404 Error">
+            <h1>An Error Occurred</h1>
+        {% endif %}
+
+        <p>{{ error_message }}</p>
+
+        <a href="{{ url_for('home') }}">Return to Home</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question {{ question_number }}</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500&display=swap');
+        body {
+            background-image: url('{{ url_for('static', filename='question_' ~ question_number ~ '_back.png') }}');
+            background-position: center;
+            background-size: cover;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            color: white; /* Default text color */
+            position: relative;
+
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5); /* Semi-transparent black layer */
+            z-index: -1;
+        }
+
+        #home-icon {
+            position: fixed;
+            background-color: rgba(255, 255, 255, 255);
+            top: 10px;
+            right: 10px;
+            font-size: 40px;
+            cursor: pointer;
+        }
+
+        .message {
+            width: 100%;
+            background-color: black;
+            color: #fd8f00;
+            text-align: center;
+            font-size: 30px;
+            padding: 10px 0;
+        }
+
+        .question-container {
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        .question-description {
+            text-align: left;
+            font-size: 20px;
+            margin: 20px;
+            background: transparent;
+            white-space: pre-line;
+            font-family: 'Noto Serif KR', serif;;
+
+        }
+
+        .question-image {
+            max-width: 100%;
+            height: auto;
+            display: block; /* To ensure proper alignment */
+            margin: 20px auto; /* Center align the image */
+        }
+        .rankings-container {
+            margin-top: 20px;
+            width: 100%;
+        }
+        .ranking-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .ranking-list li {
+            margin-bottom: 5px;
+        }
+        #question-ranking, #ranking {
+            width: 80%;
+            max-width: 600px;
+            margin: 10px 0 10px 10px;
+            background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            color: #fff; /* White text color */
+        }
+
+        #question-ranking h3, #ranking h3 {
+            background-color: black;
+            color: white;
+            padding: 5px;
+            margin-top: 0;
+            display: block;
+        }
+
+        #question-ranking ol, #ranking ol {
+            list-style-position: inside; /* Ensures numbers are aligned */
+            padding-left: 0;
+        }
+
+        #reload-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        #answer-input {
+            width: 60%;
+            text-align: center;
+            max-width: 400px;
+            padding: 15px;
+            font-size: 18px; /* Bigger size text box */
+            margin: 10px 0;
+        }
+
+        /* Submit Button Style */
+        #submit-button {
+            background: linear-gradient(to right, #070002, #b20303);
+            color: white;
+            font-size: 18px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block; /* Block level for full width */
+            width: 60%;
+            margin: 10px auto;
+            max-width: 400px;
+        }
+    </style>
+</head>
+<body>
+    {% if message %}
+        <div class="message">{{ message }}</div>
+    {% endif %}
+
+    <a id="home-icon" href="/home">&#8962;</a>
+
+    <div class="question-container">
+        <h1 class="text-xl font-bold mb-2">Xorbis Escape</h1>
+        <h2 class="text-3xl font-bold mb-2">Question {{ question_number}}</h2>
+
+        <div class="question-description">
+            {{ question_description }}
+        </div>
+
+        <img class="question-image" src="{{ url_for('static', filename='question' + question_number|string + '.png') }}" alt="Question Image">
+        <form method="POST" action="{{ url_for('question', question_number=question_number) }}">
+            <input id="answer-input" name="answer-input" type="text" placeholder="정답">
+            <button id="submit-button">정답 제출</button>
+        </form>
+    </div>
+
+    <div class="rankings-container">
+        <div id="question-ranking">
+        <h3>이 문제를 가장 빨리 푼 사람</h3>
+            <p style="color: rgba(255, 255, 255, 0.7); font-size: 14px; margin-bottom: 10px; padding-left:20px">
+                이름 - 팀 (이 문제를 다 푼 시간)
+            </p>
+        <ol class="ranking-list">
+            {% for user in top_users_for_question %}
+                <li>{{ loop.index }}등 : {{ user.username }} - {{ user.team }} ({{ user.completion_time }})</li>
+            {% endfor %}
+        </ol>
+        </div>
+
+        <div id="ranking">
+            <h3>전체 실시간 순위</h3>
+<!--            <button id="reload-button" onclick="location.reload();"><i class="fas fa-sync-alt" style="color: white; font-weight: bold;"></i></button>-->
+            <button id="reload-button" onclick="location.reload();"><i class="fas fa-sync-alt" style="color: white; font-weight: bold;"></i></button>
+            <p style="color: rgba(255, 255, 255, 0.7); font-size: 14px; margin-bottom: 10px; padding-left:20px">
+                이름 - 팀 - 마지막으로 푼 문제 (전체 문제를 푸는데 걸린 시간)
+            </p>
+            <ol class="ranking-list">
+                {% for user in top_users %}
+                    <li>{{ loop.index }}등 : {{ user.username }} - {{ user.team }} - {{ user.last_completed_question }} ({{ user.total_time|format_duration }})</li>
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
+</body>
+</html>
+

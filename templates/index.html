@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Xorbis Escape</title>
+    <style>
+        body {
+            background-image: url('{{ url_for('static', filename='login.png') }}');
+            background-position: center;
+            background-size: cover;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            margin: 20px;
+            width: 80vw;
+            margin-top: 800px;
+            max-width: 600px;
+            text-align: center;
+            font-size: 2.5em;
+        }
+
+        .ranking-container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            margin: 20px;
+            width: 80vw;
+            max-width: 1000px;
+            text-align: center;
+            font-size: 2.5em;
+            {#margin-top: auto;#}
+        }
+
+        .ranking-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .ranking-list li {
+            margin-bottom: 10px;
+        }
+
+        #login h1{
+            color: #00D9FF;
+            text-align: center;
+            font-size: 60px;
+        }
+
+        #ranking h3 {
+            color: #20f1b3;
+            text-align: center;
+            font-size: 45px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        input[type="text"], input[type="password"], select {
+            padding: 22px;
+            border: none;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-size: 35px;
+        }
+
+        button {
+            padding: 22px;
+            border: none;
+            border-radius: 10px;
+            background-color: #00D9FF;
+            color: black;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 40px;
+        }
+
+        button:hover {
+            background-color: #0099cc;
+        }
+
+        .message {
+            color: #FFD700;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #reload-button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            color: #00D9FF;
+            float: right;
+            font-size: 24px;
+            line-height: 24px;
+        }
+
+        #reload-button:hover {
+            color: #0099cc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+<!--        <div class="welcome-text"></div>엑스오비스 온라인 방탈출 게임에 오신 것을 환영합니다. 로그인 하세요.</div>-->
+        <div id="login">
+            <h1>로그인</h1>
+            {% if ask_new_account %}
+                <form method="post">
+<!--                    <input name="username" type="hidden" value="{{ session.get('username', '') }}">-->
+<!--                    <input name="team" type="hidden" value="{{ session.get('team', '') }}">-->
+                    <button type="submit" name="user_decision" value="yes">네, 새로운 계정을 만듭니다</button>
+                    <button type="submit" name="user_decision" value="no">아니오, 다시 한 번 시도할게요</button>
+                </form>
+            {% endif %}
+
+
+            {% if ask_for_new_password %}
+                <form method="post">
+                    <p>계정에 새로운 비밀번호를 입력하세요:</p>
+    <!--                <input name="username" type="hidden" value="{{ session.get('username', '')}}">-->
+    <!--                <input name="team" type="hidden" value="{{ session.get('team', '') }}">-->
+                    <input name="password" type="password" placeholder="새로운 비밀번호" required>
+                    <button type="submit">계정 만들기</button>
+                </form>
+            {% endif %}
+
+            {% if not user_exists and not ask_if_new and not ask_new_account and not ask_for_new_password%}
+                <form method="post">
+                    <input name="username" type="text" placeholder="이름" required>
+                    <select name="team" required>
+                        <!-- Team options here -->
+                        <option value="">소속 선택</option>
+                        <option value="대표이사">대표이사</option>
+                        <option value="CDO">CDO</option>
+                        <option value="미래전략본부">미래전략본부</option>
+                        <option value="경영지원팀">경영지원팀</option>
+                        <option value="공무팀">공무팀</option>
+                        <option value="공사_1본부">공사_1본부</option>
+                        <option value="공사_2본부">공사_2본부</option>
+                        <option value="공사_3본부">공사_3본부</option>
+                        <option value="연구소 개발1(SW)">연구소 개발1(SW)</option>
+                        <option value="연구소 개발2(HW)">연구소 개발2(HW)</option>
+                        <option value="연구소 개발3(영상)">연구소 개발3(영상)</option>
+                        <option value="연구소 공간디자인/연구기획">연구소 공간디자인/연구기획</option>
+                        <option value="연구소 자문">연구소 자문</option>
+                        <option value="콘사_디자인팀">콘사_디자인팀</option>
+                        <option value="콘사인사이트플래닝">콘사인사이트플래닝</option>
+                        <option value="콘사_비주얼아트">콘사_비주얼아트</option>
+                        <option value="뮤지엄엑스">콘사_비주얼아트</option>
+                    </select>
+                    <button type="submit">다음</button>
+                </form>
+            {% endif %}
+
+            {% if user_exists%}
+                <form method="post">
+                    <input name="username" type="hidden" value="{{ session.get('username', '') }}">
+                    <input name="team" type="hidden" value="{{ session.get('team', '') }}">
+                    <input name="password" type="password" placeholder="Password" required>
+                    <button type="submit">로그인</button>
+                </form>
+            {% endif %}
+
+            {% if ask_if_new %}
+                <form method="post">
+                    <p>등록되지 않은 이름입니다. 새로 등록해주세요</p>
+                    <input name="username" type="text" value="{{ username }}">
+                    <input name="team" type="hidden" value="{{ team }}">
+                    <input name="password" type="password" placeholder="패스워드 만들기" required>
+                    <button type="submit">새로운 계정 만들기</button>
+                </form>
+            {% endif %}
+
+
+            </form>
+            {% if message %}
+                <div class="message">{{ message }}</div>
+            {% endif %}
+        </div>
+
+        {% if account_created %}
+            <div class="message">계정을 새로 만들었습니다. 다시 로그인 해주세요. </div>
+        {% endif %}
+
+    </div>
+    <div class="ranking-container" id="ranking">
+        <h3>전체 실시간 랭킹</h3>
+        <button id="reload-button" onclick="location.reload();">
+            <i class="fas fa-sync-alt"></i>
+        </button>
+        <p style="color: rgba(255, 255, 255, 0.7); font-size: 30px; margin-bottom: 10px;">
+            이름 - 팀 - 마지막으로 푼 문제 (전체 걸린 시간)
+        </p>
+        <ol class="ranking-list">
+            {% for user in top_users %}
+                <li>{{ loop.index }}등 : {{ user.username }} - {{ user.team }} - {{ user.last_completed_question }} ({{ user.total_time|format_duration }})</li>
+            {% endfor %}
+        </ol>
+    </div>
+
+</body>
+</html>
+
+

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Xorbis Escape</title>
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500&display=swap');
+        body {
+            background-image: url('{{ url_for('static', filename='home.png') }}');
+            background-size: cover;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .container{
+            background: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            margin: 50px 0;
+            margin-top: 20vw;
+            width: 80vw; /* Responsive width */
+            max-width: 1500px; /* Maximum width */
+            font-size: 2.5em;
+            text-align: justify;
+        }
+
+        .ranking-container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            margin: 20px;
+            width: 80vw;
+            max-width: 1000px;
+            text-align: center;
+            font-size: 2.5em;
+            margin-top: 200px;
+            {#margin-top: auto;#}
+        }
+
+        .ranking-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .ranking-list li {
+            margin-bottom: 10px;
+        }
+
+        #ranking h3 {
+            color: #00D9FF;
+            text-align: center;
+            font-size: 45px;
+        }
+
+        #reload-button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            color: #00D9FF;
+            float: right;
+            font-size: 20px;
+            line-height: 20px;
+        }
+
+        #reload-button:hover {
+            color: #0099cc;
+        }
+
+        #game-rules {
+            text-align: left;
+            font-size: 50px;
+            margin-bottom: 20px;
+            font-family: 'Noto Serif KR', serif;;
+
+        }
+
+        .input-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 100px;
+        }
+
+        input[type="text"] {
+            padding: 12px;
+            font-size: 35px;
+            border-radius: 5px;
+            margin: 5px 0;
+        }
+
+        button {
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            background-color: #00D9FF;
+            color: black;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 35px;
+        }
+
+        button:hover {
+            background-color: #0099cc;
+        }
+
+        .message {
+            color: #FFD700;
+            text-align: center;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    {% if message %}
+        <div class="message">{{ message }}</div>
+    {% endif %}
+
+    <div class="container" id="game-rules">
+        <h2 style="text-align: center">Xorbis Escape</h2>
+        <div class="dropdown-container">
+            <button id="dropdown-button">개발자 메세지</button>
+            <div id="hidden-message" style="display: none; background-color: rgba(0, 0, 0, 0.8); font-size: 30px;color: white; padding: 10px; margin-top: 10px; border-radius: 5px;">
+                <p>
+                    2023년 너무 수고 많으셨습니다. <br><br>
+                    회사 분들이 조금이나마 재미를 느끼시길 바라는 마음에서 제작하였습니다. <br><br>
+                    저는 웹 개발을 단 한 번도 해본 적이 없습니다. 전부 연구소에서 프롬프트 엔지니어링 한 GPTs - WebMaker로 코딩하였습니다.<br><br>
+                    부족한 점이 많아도 너그럽게 봐주셨으면 합니다. <br><br>
+                    이상한 거 하고 싶다고 나서도 항상 응원과 지원 아끼시지 않는 <strong style="font-weight: bold;">강무경 소장님 </strong>과 <br><br>
+                    개발 하나도 할 줄 모르던 신입을 사람 만들어주신 <strong style="font-weight: bold;">최석환 부장님</strong>께 감사드립니다.
+                </p>
+            </div>
+        </div>
+        <p style="font-size: 30px;">코딩/일러스트: 연구소 자체 GPTs <br> 기획/제작: 송주경<br><br></p>
+        <p>모든 문제는 주관식 입니다. <br>올바르게 적은 정답만 인정합니다. <br><br> 모바일 환경에서 풀어주세요. </p>
+        <p style="color: rgba(252,64,64,0.7); font-weight: bold;">지문을 꼼꼼히 읽고 직관적으로 푸세요. <br> </p>
+        홈화면으로 이동하시려면 오른쪽 위 아이콘을 클릭하세요. <br>
+        <p>    게임을 시작하려면 아래 텍스트에 시작을 입력하세요.</p>
+        <form method="post" action="{{ url_for('home') }}" class="input-container">
+            <input type="text" name="game-start-input" id="game-start-input" placeholder="시작을 입력하세요">
+            <button type="submit">입력</button>
+        </form>
+        <div class="input-container">
+            <button onclick="window.location.href='{{ url_for('question', question_number=1) }}'">처음부터 다시 풀기</button>
+        </div>
+    </div>
+
+    <div class="ranking-container" id="ranking">
+        <h3>전체 실시간 랭킹</h3>
+        <button id="reload-button" onclick="location.reload();">
+            <i class="fas fa-sync-alt"></i>
+        </button>
+        <p style="color: rgba(255, 255, 255, 0.7); font-size: 30px; margin-bottom: 10px; padding-left:20px">
+            이름 - 팀 - 마지막으로 푼 문제 (전체 걸린 시간)
+        </p>
+        <ol class="ranking-list">
+            {% for user in top_users %}
+                <li>{{ loop.index }}등 : {{ user.username }} - {{ user.team }} - {{ user.last_completed_question }} ({{ user.total_time|format_duration }})</li>
+            {% endfor %}
+        </ol>
+    </div>
+
+    <!-- Inside the <body> tag -->
+    <script>
+        {% if user %}
+            var lastCompletedQuestion = {{ user.last_completed_question | int }}; // Get the last completed question from user data
+        {% else %}
+            var lastCompletedQuestion = 0; // Default value if user is not defined
+        {% endif %}
+
+        // function startGame() {
+        //     var inputVal = document.getElementById('game-start-input').value;
+        //     if (inputVal === '시작') {
+        //         window.location.href = '{{ url_for("question", question_number=1) }}'.replace('1', lastCompletedQuestion + 1);
+        //     }
+        // }
+        document.getElementById('dropdown-button').onclick = function() {
+            var hiddenMessage = document.getElementById('hidden-message');
+            if (hiddenMessage.style.display === 'none') {
+                hiddenMessage.style.display = 'block';
+            } else {
+                hiddenMessage.style.display = 'none';
+            }
+        };
+    </script>
+
+</body>
+</html>
