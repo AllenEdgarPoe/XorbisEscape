@@ -4,6 +4,7 @@ from datetime import datetime
 
 from pytz import utc, timezone
 
+logging.Formatter.converter = lambda *args: datetime.now(tz=timezone('Asia/Seoul')).timetuple()
 
 def setup_logger():
     # Get today's date in the desired format

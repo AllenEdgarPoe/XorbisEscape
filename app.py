@@ -14,7 +14,7 @@ app.config['JSON_AS_ASCII'] = False
 
 CSV_FILE_PATH = './user_info.csv'
 QUESTION_TIME_FILE_PATH = './question_times.csv'
-TOTAL_QUESTIONS = 20
+TOTAL_QUESTIONS = 2
 
 # Setup the logger
 logger = setup_logger()
