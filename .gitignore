@@ -4,3 +4,5 @@ tt.py
 .idea/*
 __pycache__/*
 *.csv
+user_info_whole.csv
+question_times.csv
