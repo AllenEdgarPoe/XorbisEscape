@@ -3,3 +3,4 @@ venv
 tt.py
 .idea/*
 __pycache__/*
+*.csv
