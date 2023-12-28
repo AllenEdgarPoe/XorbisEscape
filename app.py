@@ -14,7 +14,7 @@ app.config['JSON_AS_ASCII'] = False
 
 CSV_FILE_PATH = './user_info.csv'
 QUESTION_TIME_FILE_PATH = './question_times.csv'
-TOTAL_QUESTIONS = 2
+TOTAL_QUESTIONS = 20
 
 # Setup the logger
 logger = setup_logger()
@@ -83,9 +83,9 @@ def get_top_users():
     try:
         users_df = load_users()
         # Convert 'NaT' to None or a specific string
-        users_df['completion_time'] = users_df['completion_time'].apply(lambda x: x if pd.notnull(x) else None)
-        top_users = users_df.sort_values(by=['last_completed_question', 'total_time'], ascending=[False, True])
-        top_users = top_users.head(10)  # Take the top 10
+        users_df['completion_time'] = pd.to_datetime(users_df['completion_time'])
+        top_users = users_df.sort_values(by='completion_time', ascending=True)
+        top_users = top_users[top_users['completion_time'].notnull()]
         return top_users[['username', 'team', 'last_completed_question', 'total_time']].to_dict(orient='records')
     except Exception as e:
         logger.error(f'Error : {e}')

@@ -211,7 +211,7 @@
         </p>
         <ol class="ranking-list">
             {% for user in top_users %}
-                <li>{{ loop.index }}등 : {{ user.username }} - {{ user.team }} - {{ user.last_completed_question }} ({{ user.total_time|format_duration }})</li>
+                <li>{{ loop.index }}등 : {{ user.username }} - {{ user.team }} - {{ user.last_completed_question }} ({{ user.completion_time }})</li>
             {% endfor %}
         </ol>
     </div>
