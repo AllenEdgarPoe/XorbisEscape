@@ -7,8 +7,10 @@ I had never engaged in website programming before and possessed no knowledge of 
 - Url : **http://34.22.77.12:5000** (I uploaded it using **GCP**(Google Cloud Platform), but it will be deleted once my trial period expires.)
 
 
+https://github.com/AllenEdgarPoe/XorbisEscape/assets/43398106/1260d394-83ba-4b02-be02-2e5a800aaaf4
 
-![KakaoTalk_20231228_095355323](https://github.com/AllenEdgarPoe/Real-time-SD-TD-SDXLora/assets/43398106/5aa822a9-1e68-4fcb-9611-bfe270009f5e)
+
+
 
 ---
 ## 대회 개요 (Details of the Contest)
@@ -29,3 +31,8 @@ I had never engaged in website programming before and possessed no knowledge of 
 * 각 문제 당 걸린 평균 시간 
   * 17번 체스판 문제가 압도적으로 어려웠던 것으로 보임 
   * ![analy3](https://github.com/AllenEdgarPoe/XorbisEscape/assets/43398106/ba20195a-45b5-45c3-a87e-154a89289673)
+
+---
+
+## 로그인 화면 (Homepage)
+![KakaoTalk_20231228_095355323](https://github.com/AllenEdgarPoe/Real-time-SD-TD-SDXLora/assets/43398106/5aa822a9-1e68-4fcb-9611-bfe270009f5e)
